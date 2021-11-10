@@ -9,16 +9,19 @@ def grids (x):
     print('---------')
 
 grids(cells)
-numbers = ('0123456789')
-numbers1 = ('123')
 
 def inp ():
-    global co1, co2, a
-    a = input('Enter the coordinates:')
-    co1 = [x for x in a if x in numbers]
-    co2 = [x for x in a if x in numbers1]
-    x, y = a[0], a[2]
-    return x, y
+    while True:
+        try:
+            a1, a2 = map(int, input('Enter the coordinates:').split())
+            if a1 <= 0 or a1 > 3 or a2 <= 0 or a2 > 3:
+                print("Coordinates should be from 1 to 3!")
+                continue
+        except ValueError:
+            print('You should enter numbers!')
+            continue
+        else:
+            return a1, a2
 
 def coord (x,y):
     s = [(i,j) for i in range(1,4) for j in range(1,4)]
@@ -27,8 +30,8 @@ def coord (x,y):
 a1, a2 = inp()
 def move ():
     global cells
-    if cells[coord(int(a1),int(a2))] == ' ' or cells[coord(int(a1),int(a2))] == '_':
-        ind = coord(int(a1),int(a2))
+    if cells[coord(a1,a2)] == ' ' or cells[coord(a1,a2)] == '_':
+        ind = coord(a1,a2)
         if cells.count('X') == 0 or cells.count('X') == cells.count('O'):
             cells = cells[:ind] + "X" + cells[ind + 1:]
             grids(cells)
@@ -55,17 +58,7 @@ def comb_check ():
 
 def check():
     global cells, a1, a2, co1, co2
-    while co1 == [] or len(co1) == 1:
-        print('You should enter numbers!')
-        a1, a2 = inp()
-        if len(co1) > 1:
-            break
-    while len(co2) != 2 or len(a) > 3:
-        print('Coordinates should be from 1 to 3!')
-        a1, a2 = inp()
-        if len(co2) == 2 and len(a) == 3:
-            break
-    while cells[coord(int(a1), int(a2))] != ' ' and cells[coord(int(a1), int(a2))] != '_':
+    while cells[coord(a1, a2)] != ' ' and cells[coord(a1, a2)] != '_':
         print('This cell is occupied! Choose another one!')
         a1, a2 = inp()
     else:
